@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:GroupsStudents_mvvm.ViewModels"
+        xmlns:decanat="clr-namespace:GroupsStudents_mvvm.Models"
         xmlns:local="clr-namespace:GroupsStudents_mvvm" 
         
         mc:Ignorable="d"
@@ -16,23 +17,39 @@
             <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="8*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
+
         <GroupBox Grid.Column="0" Header="Группы">
             <ListBox SelectedIndex="0" ItemsSource="{Binding Path=Groups}" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedGroup}"></ListBox>
         </GroupBox>
 
-        <GroupBox Grid.Column="1" Header="{Binding Path=SelectedGroup.Name, FallbackValue='Студенты', TargetNullValue='Группа не выбрана'}">
-            <DataGrid ItemsSource="{Binding Path=SelectedGroup.Students}" AutoGenerateColumns="False" IsReadOnly="True" >
+        <GroupBox Background="LawnGreen" Grid.Column="1" Header="{Binding Path=SelectedGroup.Name, FallbackValue='Студенты', TargetNullValue='Группа не выбрана'}">
+            <DataGrid VerticalGridLinesBrush="ForestGreen" GridLinesVisibility="Vertical" ItemsSource="{Binding Path=SelectedGroup.Students}" AutoGenerateColumns="False" IsReadOnly="True" IsSynchronizedWithCurrentItem="True" >
+            
+                <DataGrid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FFEC0D0D" Offset="1"/>
+                    </LinearGradientBrush>
+                </DataGrid.Background>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Surname}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Surname}">
+                    </DataGridTextColumn>
                     <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Patronymic}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=Birthday, StringFormat=dd.MM.yyyy}"></DataGridTextColumn>
+                    <DataGridTemplateColumn Header="Дата рождения">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="decanat:Student">
+                                <DatePicker SelectedDate="{Binding Birthday}"></DatePicker>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Рейтинг" Binding="{Binding Path=Rating}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Группа" Binding="{Binding DataContext.SelectedGroup.Name, RelativeSource={RelativeSource AncestorType=DataGrid}}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Описание" Binding="{Binding Path=Description}" Width="1*"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-        
+
     </Grid>
 </Window>
