@@ -18,4 +18,5 @@ namespace GroupsStudents_mvvm.Models
     {
         public string Name { get; set; }
         public ICollection<Student> Students { get; set; }
+    }
 }
