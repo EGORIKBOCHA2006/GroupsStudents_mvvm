@@ -36,6 +36,7 @@ namespace GroupsStudents_mvvm.ViewModels
                 Name = $"Имя{j}",
                 Surname = $"Фамилия{j}",
                 Patronymic = $"Отчество{j}",
+                Birthday = DateTime.Now,
                 Rating = 0
             });
             var groups = Enumerable.Range(1, 20).Select
